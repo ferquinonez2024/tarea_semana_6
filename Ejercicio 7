@@ -1,0 +1,106 @@
+class Vehiculo:
+    def __init__(self, placa, marca, modelo, año, precio):
+        self.placa = placa
+        self.marca = marca
+        self.modelo = modelo
+        self.año = año
+        self.precio = precio
+        self.siguiente = None
+
+class ListaEnlazada:
+    def __init__(self):
+        self.cabeza = None
+
+    def agregar_vehiculo(self, placa, marca, modelo, año, precio):
+        nuevo_vehiculo = Vehiculo(placa, marca, modelo, año, precio)
+        if not self.cabeza:
+            self.cabeza = nuevo_vehiculo
+        else:
+            actual = self.cabeza
+            while actual.siguiente:
+                actual = actual.siguiente
+            actual.siguiente = nuevo_vehiculo
+        print("Vehículo agregado exitosamente.")
+
+    def buscar_vehiculo(self, placa):
+        actual = self.cabeza
+        while actual:
+            if actual.placa == placa:
+                return f"Placa: {actual.placa}, Marca: {actual.marca}, Modelo: {actual.modelo}, Año: {actual.año}, Precio: ${actual.precio}"
+            actual = actual.siguiente
+        return "Vehículo no encontrado."
+
+    def ver_vehiculos_por_año(self, año):
+        actual = self.cabeza
+        encontrados = []
+        while actual:
+            if actual.año == año:
+                encontrados.append(f"Placa: {actual.placa}, Marca: {actual.marca}, Modelo: {actual.modelo}, Precio: ${actual.precio}")
+            actual = actual.siguiente
+        return encontrados if encontrados else "No hay vehículos de ese año."
+
+    def ver_todos_los_vehiculos(self):
+        actual = self.cabeza
+        vehiculos = []
+        while actual:
+            vehiculos.append(f"Placa: {actual.placa}, Marca: {actual.marca}, Modelo: {actual.modelo}, Año: {actual.año}, Precio: ${actual.precio}")
+            actual = actual.siguiente
+        return vehiculos if vehiculos else "No hay vehículos registrados."
+
+    def eliminar_vehiculo(self, placa):
+        actual = self.cabeza
+        previo = None
+        while actual:
+            if actual.placa == placa:
+                if previo:
+                    previo.siguiente = actual.siguiente
+                else:
+                    self.cabeza = actual.siguiente
+                print("Vehículo eliminado exitosamente.")
+                return
+            previo = actual
+            actual = actual.siguiente
+        print("Vehículo no encontrado.")
+
+def menu():
+    lista = ListaEnlazada()
+    while True:
+        print("\n--- Menú ---")
+        print("1. Agregar vehículo")
+        print("2. Buscar vehículo por placa")
+        print("3. Ver vehículos por año")
+        print("4. Ver todos los vehículos")
+        print("5. Eliminar vehículo")
+        print("6. Salir")
+        opcion = input("Seleccione una opción: ")
+        if opcion == "1":
+            placa = input("Ingrese la placa: ")
+            marca = input("Ingrese la marca: ")
+            modelo = input("Ingrese el modelo: ")
+            año = int(input("Ingrese el año: "))
+            precio = float(input("Ingrese el precio: "))
+            lista.agregar_vehiculo(placa, marca, modelo, año, precio)
+        elif opcion == "2":
+            placa = input("Ingrese la placa del vehículo: ")
+            print(lista.buscar_vehiculo(placa))
+        elif opcion == "3":
+            año = int(input("Ingrese el año: "))
+            vehiculos = lista.ver_vehiculos_por_año(año)
+            for vehiculo in vehiculos:
+                print(vehiculo)
+        elif opcion == "4":
+            vehiculos = lista.ver_todos_los_vehiculos()
+            for vehiculo in vehiculos:
+                print(vehiculo)
+        elif opcion == "5":
+            placa = input("Ingrese la placa del vehículo a eliminar: ")
+            lista.eliminar_vehiculo(placa)
+        elif opcion == "6":
+            print("Saliendo del programa.")
+            break
+        else:
+            print("Opción no válida. Intente nuevamente.")
+
+menu()
+//Universidad Estatal Amazonica
+//Tiffany Quiñonez
