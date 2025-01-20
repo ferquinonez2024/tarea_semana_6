@@ -1,0 +1,92 @@
+class Nodo:
+    def __init__(self, dato):
+        self.dato = dato
+        self.siguiente = None
+
+class ListaEnlazada:
+    def __init__(self):
+        self.cabeza = None
+        self.tamano = 0
+
+    def agregar_al_final(self, dato):
+        nuevo_nodo = Nodo(dato)
+        if not self.cabeza:
+            self.cabeza = nuevo_nodo
+        else:
+            actual = self.cabeza
+            while actual.siguiente:
+                actual = actual.siguiente
+            actual.siguiente = nuevo_nodo
+        self.tamano += 1
+
+    def agregar_al_inicio(self, dato):
+        nuevo_nodo = Nodo(dato)
+        nuevo_nodo.siguiente = self.cabeza
+        self.cabeza = nuevo_nodo
+        self.tamano += 1
+
+    def obtener_elementos(self):
+        elementos = []
+        actual = self.cabeza
+        while actual:
+            elementos.append(actual.dato)
+            actual = actual.siguiente
+        return elementos
+
+def es_primo(numero):
+    if numero < 2:
+        return False
+    for i in range(2, int(numero ** 0.5) + 1):
+        if numero % i == 0:
+            return False
+    return True
+
+def es_armstrong(numero):
+    suma = sum(int(digito) ** len(str(numero)) for digito in str(numero))
+    return suma == numero
+
+def menu():
+    lista_primos = ListaEnlazada()
+    lista_armstrong = ListaEnlazada()
+
+    while True:
+        print("\n--- Menú ---")
+        print("1. Agregar número")
+        print("2. Mostrar número de datos en cada lista")
+        print("3. Mostrar la lista con más elementos")
+        print("4. Mostrar todos los datos insertados")
+        print("5. Salir")
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1":
+            numero = int(input("Ingrese un número entero: "))
+            if es_primo(numero):
+                lista_primos.agregar_al_final(numero)
+                print(f"{numero} es primo y se agregó a la lista de primos.")
+            elif es_armstrong(numero):
+                lista_armstrong.agregar_al_inicio(numero)
+                print(f"{numero} es un número Armstrong y se agregó a la lista de Armstrong.")
+            else:
+                print(f"{numero} no es ni primo ni un número Armstrong.")
+        elif opcion == "2":
+            print(f"Números en la lista de primos: {lista_primos.tamano}")
+            print(f"Números en la lista de Armstrong: {lista_armstrong.tamano}")
+        elif opcion == "3":
+            if lista_primos.tamano > lista_armstrong.tamano:
+                print("La lista de primos tiene más elementos.")
+            elif lista_armstrong.tamano > lista_primos.tamano:
+                print("La lista de Armstrong tiene más elementos.")
+            else:
+                print("Ambas listas tienen la misma cantidad de elementos.")
+        elif opcion == "4":
+            print("Lista de primos:", lista_primos.obtener_elementos())
+            print("Lista de Armstrong:", lista_armstrong.obtener_elementos())
+        elif opcion == "5":
+            print("Saliendo del programa.")
+            break
+        else:
+            print("Opción no válida. Intente nuevamente.")
+
+menu()
+// Universidad Estatal Amazonica
+//Tiffany Quiñonez
